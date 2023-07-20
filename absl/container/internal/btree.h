@@ -1585,7 +1585,7 @@ class btree {
   }
 
   // Verifies the structure of the btree.
-  void verify() const;
+  void absl_verify() const;
 
   // Size routines.
   size_type size() const { return size_; }
@@ -2606,7 +2606,7 @@ void btree<P>::swap(btree &other) {
 }
 
 template <typename P>
-void btree<P>::verify() const {
+void btree<P>::absl_verify() const {
   assert(root() != nullptr);
   assert(leftmost() != nullptr);
   assert(rightmost() != nullptr);

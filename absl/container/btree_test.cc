@@ -277,8 +277,8 @@ class base_checker {
     checker_.swap(other.checker_);
   }
 
-  void verify() const {
-    tree_.verify();
+  void absl_verify() const {
+    tree_.absl_verify();
     EXPECT_EQ(tree_.size(), checker_.size());
 
     // Move through the forward iterators using increment.
@@ -439,7 +439,7 @@ void DoTest(const char *name, T *b, const std::vector<V> &values) {
   }
   ASSERT_EQ(mutable_b.size(), values.size());
 
-  const_b.verify();
+  const_b.absl_verify();
 
   // Test copy constructor.
   T b_copy(const_b);
@@ -457,7 +457,7 @@ void DoTest(const char *name, T *b, const std::vector<V> &values) {
 
   // Test range insertion for values that already exist.
   b_range.insert(b_copy.begin(), b_copy.end());
-  b_range.verify();
+  b_range.absl_verify();
 
   // Test range insertion for new values.
   b_range.clear();
@@ -502,7 +502,7 @@ void DoTest(const char *name, T *b, const std::vector<V> &values) {
     ASSERT_EQ(mutable_b.erase(key_of_value(values[i])), 0);
   }
 
-  const_b.verify();
+  const_b.absl_verify();
   EXPECT_EQ(const_b.size(), 0);
 
   // Test erase via iterators.
@@ -511,7 +511,7 @@ void DoTest(const char *name, T *b, const std::vector<V> &values) {
     mutable_b.erase(mutable_b.find(key_of_value(values[i])));
   }
 
-  const_b.verify();
+  const_b.absl_verify();
   EXPECT_EQ(const_b.size(), 0);
 
   // Test insert with hint.
@@ -519,12 +519,12 @@ void DoTest(const char *name, T *b, const std::vector<V> &values) {
     mutable_b.insert(mutable_b.upper_bound(key_of_value(values[i])), values[i]);
   }
 
-  const_b.verify();
+  const_b.absl_verify();
 
   // Test range erase.
   mutable_b.erase(mutable_b.begin(), mutable_b.end());
   EXPECT_EQ(mutable_b.size(), 0);
-  const_b.verify();
+  const_b.absl_verify();
 
   // First half.
   mutable_b = b_copy;
@@ -532,7 +532,7 @@ void DoTest(const char *name, T *b, const std::vector<V> &values) {
   for (int i = 0; i < values.size() / 2; ++i) ++mutable_iter_end;
   mutable_b.erase(mutable_b.begin(), mutable_iter_end);
   EXPECT_EQ(mutable_b.size(), values.size() - values.size() / 2);
-  const_b.verify();
+  const_b.absl_verify();
 
   // Second half.
   mutable_b = b_copy;
@@ -540,7 +540,7 @@ void DoTest(const char *name, T *b, const std::vector<V> &values) {
   for (int i = 0; i < values.size() / 2; ++i) ++mutable_iter_begin;
   mutable_b.erase(mutable_iter_begin, mutable_b.end());
   EXPECT_EQ(mutable_b.size(), values.size() / 2);
-  const_b.verify();
+  const_b.absl_verify();
 
   // Second quarter.
   mutable_b = b_copy;
@@ -550,7 +550,7 @@ void DoTest(const char *name, T *b, const std::vector<V> &values) {
   for (int i = 0; i < values.size() / 4; ++i) ++mutable_iter_end;
   mutable_b.erase(mutable_iter_begin, mutable_iter_end);
   EXPECT_EQ(mutable_b.size(), values.size() - values.size() / 4);
-  const_b.verify();
+  const_b.absl_verify();
 
   mutable_b.clear();
 }
@@ -599,7 +599,7 @@ void ConstTest() {
   EXPECT_NE(mutable_b.rend(), const_riter);
 
   // Make sure various methods can be invoked on a const container.
-  const_b.verify();
+  const_b.absl_verify();
   ASSERT_TRUE(!const_b.empty());
   EXPECT_EQ(const_b.size(), 1);
   EXPECT_GT(const_b.max_size(), 0);
